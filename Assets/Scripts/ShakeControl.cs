@@ -42,6 +42,7 @@ public class ShakeControl : MonoBehaviour
 
     void ShakeObjectWithMouse()
     {
+        var rb = transform.GetComponent<Rigidbody>();
         // Calculate mouse movement delta (difference in mouse position)
         Vector3 currentMousePosition = Input.mousePosition;
         Vector3 mouseDelta = (currentMousePosition - lastMousePosition) * shakeSpeed * Time.deltaTime;
@@ -57,12 +58,16 @@ public class ShakeControl : MonoBehaviour
         newPosition.y = Mathf.Clamp(newPosition.y, initialPosition.y - shakeLimitY, initialPosition.y + shakeLimitY);
 
         // Apply the new position to the object
-        transform.localPosition = newPosition;
+        //transform.localPosition = newPosition;
+
+        rb.MovePosition(newPosition);
     }
 
     void ReturnToInitialPosition()
     {
         // Smoothly return to the initial position when the mouse is released
-        transform.localPosition = Vector3.Lerp(transform.localPosition, initialPosition, Time.deltaTime * returnSpeed);
+        //transform.localPosition = Vector3.Lerp(transform.localPosition, initialPosition, Time.deltaTime * returnSpeed);
+        var rb = transform.GetComponent<Rigidbody>();
+        rb.MovePosition(Vector3.Lerp(transform.localPosition, initialPosition, Time.deltaTime * returnSpeed));
     }
 }

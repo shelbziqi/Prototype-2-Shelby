@@ -4,7 +4,12 @@ public class RotateOnClick : MonoBehaviour
 {
     public float rotationAngle = 90f;  // Angle to rotate (90 degrees per click)
     private float currentRotationZ = 0f; // Current rotation angle around Z-axis
+    private Rigidbody rb;
 
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     void Update()
     {
         // Check for mouse clicks
@@ -42,12 +47,14 @@ public class RotateOnClick : MonoBehaviour
 
         while (timeElapsed < duration)
         {
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / duration);
+            //transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / duration);
+            rb.MoveRotation(Quaternion.Slerp(startRotation, targetRotation, timeElapsed / duration));
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
         // Ensure the final rotation is set
-        transform.rotation = targetRotation;
+        //transform.rotation = targetRotation;
+        rb.MoveRotation(targetRotation);
     }
 }

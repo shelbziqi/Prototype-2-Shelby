@@ -4,6 +4,15 @@ public class CubeCollector : MonoBehaviour
 {
     public float growthAmount = 0.01f;   // Amount by which the cube grows each time it collects a ball
     public string ballTag = "Ball";     // Tag to identify balls in the scene
+ 
+    private AudioSource audioSource;     // Reference to the AudioSource component
+
+    private void Start()
+    {
+        // Get the AudioSource component attached to the cube
+        audioSource = GetComponent<AudioSource>();
+
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -18,6 +27,8 @@ public class CubeCollector : MonoBehaviour
             // Call method to grow the cube
             GrowCube();
 
+            PlayCollectionSound();
+
             // Destroy the collected ball
             Destroy(collision.gameObject);
         }
@@ -29,4 +40,10 @@ public class CubeCollector : MonoBehaviour
         transform.localScale += new Vector3(growthAmount, growthAmount, 0f);
         Debug.Log("Cube size increased to: " + transform.localScale);
     }
+
+    private void PlayCollectionSound()
+    {
+        audioSource.Play();
+    }
+
 }
